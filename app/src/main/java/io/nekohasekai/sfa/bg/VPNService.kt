@@ -6,7 +6,9 @@ import android.net.ProxyInfo
 import android.net.VpnService
 import android.os.Build
 import android.os.IBinder
+import io.nekohasekai.libbox.LocalDNSTransport
 import io.nekohasekai.libbox.Notification
+import io.nekohasekai.libbox.StringIterator
 import io.nekohasekai.libbox.TunOptions
 import io.nekohasekai.sfa.database.Settings
 import io.nekohasekai.sfa.ktx.toIpPrefix
@@ -22,6 +24,10 @@ class VPNService : VpnService(), PlatformInterfaceWrapper {
     }
 
     private val service = BoxService(this, this)
+
+    override fun localDNSTransport(): LocalDNSTransport = LocalResolver
+
+    override fun systemCertificates(): StringIterator? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) =
         service.onStartCommand()
